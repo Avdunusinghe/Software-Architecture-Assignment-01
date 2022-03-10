@@ -9,14 +9,14 @@ public class DbConextImpl implements IDbContext {
 	private final String dbContextDriverName;
 	private String dbContextConnectionString;
 	private String dbContextUser;
-	private String password;
+	private String dbContextpassword;
 	
 	public DbConextImpl() {
 		
 		this.dbContextDriverName = "com.mysql.jdbc.Driver";
 		this.dbContextConnectionString = "jdbc:mysql://localhost:3306/bookStoreDb?characterEncoding=latin1&useConfigs=maxPerformance";
 		this.dbContextUser = "root";
-		this.password = "1qaz2wsx@";
+		this.dbContextpassword = "1qaz2wsx@";
 	}
 
 
@@ -26,7 +26,7 @@ public class DbConextImpl implements IDbContext {
 		try {
 			
 			Class.forName(dbContextDriverName);
-			dbContextConnection = (Connection)DriverManager.getConnection(dbContextConnectionString, dbContextUser, password);
+			dbContextConnection = (Connection)DriverManager.getConnection(dbContextConnectionString, dbContextUser, dbContextpassword);
 			
 			System.out.println("Database Connection Eshtablished");
 			
