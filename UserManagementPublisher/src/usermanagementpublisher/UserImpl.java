@@ -48,7 +48,7 @@ public class UserImpl implements IUserService {
 		
 		try {
 			
-			String query = "INSERT INTO user(firstName, lastName, email, mobileNumber)" +
+			String query = "INSERT INTO user(firstName, lastName, email, address, mobileNumber)" +
 						"VALUES('"+ user.getFirstName() + "','" + user.getLastName() + "', '" + user.getEmail() + "','" + user.getAddress() + "', '" + user.getMobileNumber() + "')";
 			
 			statment = connection.createStatement();
