@@ -12,12 +12,16 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		
 		System.out.println("BookStore Data Publisher Service Started");
+		IDbContext dbContext = new DbContextImpl();
+		serviceRegistration = bundleContext.registerService(IDbContext.class.getName(), dbContext, null);
+		
 		
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
 		
 		System.out.println("BookStore Data Publisher Service Stop");
+		serviceRegistration.unregister();
 	}
 
 }

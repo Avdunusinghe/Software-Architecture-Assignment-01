@@ -3,7 +3,7 @@ package bookstoredbcontext;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DbConextImpl implements IDbContext {
+public class DbContextImpl implements IDbContext {
 	
 	private Connection dbContextConnection;
 	private final String dbContextDriverName;
@@ -11,7 +11,7 @@ public class DbConextImpl implements IDbContext {
 	private String dbContextUser;
 	private String dbContextpassword;
 	
-	public DbConextImpl() {
+	public DbContextImpl() {
 		
 		this.dbContextDriverName = "com.mysql.jdbc.Driver";
 		this.dbContextConnectionString = "jdbc:mysql://localhost:3306/bookStoreDb?characterEncoding=latin1&useConfigs=maxPerformance";
