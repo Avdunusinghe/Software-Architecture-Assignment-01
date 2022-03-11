@@ -17,7 +17,7 @@ public class UserImpl implements IUserService {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	public UserImpl(Connection connection, IDbContext dbContext) {
+	public UserImpl() {
 		super();
 		
 		this.dbContext = new DbContextImpl();
