@@ -1,5 +1,7 @@
 package inventorymanagementsubscriber;
 
+import java.util.Scanner;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -18,10 +20,43 @@ public class Activator implements BundleActivator {
 		serviceReference = bundleContext.getServiceReference(IInventoryService.class.getName());
 		
 		IInventoryService inventoryService = (IInventoryService)bundleContext.getService(serviceReference);
+		
+		renderInventoryDashBoard(inventoryService);
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
 		
+		System.out.println("Good Bye");
+		
+		bundleContext.ungetService(serviceReference);
 	}
+	
+	public void renderInventoryDashBoard(IInventoryService inventoryService) {
+		
+		Scanner sc = new Scanner(System.in);
+		int userChoice;
+		
+		System.out.println("\n\n");
+		System.out.println("==============Inventory Dashboard===============");
+		System.out.println("1 => Save Book");
+		System.out.println("Please Select Your Option");
+		
+		userChoice = Integer.parseInt(sc.nextLine().trim());
+		
+		switch(userChoice) {
+		
+		case 1:
+			inventoryService.saveBooks();;
+			renderInventoryDashBoard(inventoryService);
+			break;
+			
+		default:
+			
+			System.out.println("User Option has been incorrect please try again ");
+			renderInventoryDashBoard(inventoryService);
 
+	  }
+
+	}
+	
 }
