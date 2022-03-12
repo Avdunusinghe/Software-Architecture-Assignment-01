@@ -1,6 +1,7 @@
 package usermanagementpublisher;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class UserImpl implements IUserService {
 	private IDbContext  dbContext;
 	private Statement statment;
 	private ResultSet  resultSet;
+	private static PreparedStatement preparedStatement = null;
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -46,15 +48,34 @@ public class UserImpl implements IUserService {
 		System.out.println("Enter Your Mobile Number :");
 		user.setMobileNumber(sc.nextLine().trim());
 		
+		System.out.println("Enter Your Password :");
+		user.setPassword(sc.nextLine().trim());
+		
 		try {
 			
-			String query = "INSERT INTO user(firstName, lastName, email, address, mobileNumber)" +
-						"VALUES('"+ user.getFirstName() + "','" + user.getLastName() + "', '" + user.getEmail() + "','" + user.getAddress() + "', '" + user.getMobileNumber() + "')";
+			String query = "INSERT INTO user VALUES(0, ?, ?, ?, ?, ?, ?, '1')";
 			
-			statment = connection.createStatement();
-			statment.executeUpdate(query);
+			preparedStatement = connection.prepareStatement(query); 
 			
-			System.out.println("User Registration Successfully");
+			preparedStatement.setString(1, user.getFirstName());
+			preparedStatement.setString(2, user.getLastName());
+			preparedStatement.setString(3, user.getEmail());
+			preparedStatement.setString(4, user.getAddress());
+			preparedStatement.setString(5, user.getMobileNumber());
+			preparedStatement.setString(6, user.getPassword());
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("User Registration Has Been Successfully");
+				
+			}else {
+				
+				System.out.println("Error has been orccured please try again");
+				
+			}
+			
 			
 		}catch(Exception ex) {
 			
