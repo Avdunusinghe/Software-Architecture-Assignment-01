@@ -8,12 +8,14 @@ public class User {
 	private String email;
 	private String address;
 	private String mobileNumber;
+	private String password;
+	private boolean isActive;
 	
 	public User() {
 		super();
 	}
 	
-	public User(int id, String firstName, String lastName, String email, String address, String mobileNumber) {
+	public User(int id, String firstName, String lastName, String email, String address, String mobileNumber, String password, boolean isActive) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -21,6 +23,9 @@ public class User {
 		this.email = email;
 		this.address = address;
 		this.mobileNumber = mobileNumber;
+		this.password = password;
+		this.isActive = isActive;
+		
 	}
 
 	public int getId() {
@@ -70,6 +75,26 @@ public class User {
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	
+	
+	
 	
 	
 	
