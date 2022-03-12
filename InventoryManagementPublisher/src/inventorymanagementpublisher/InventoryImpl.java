@@ -38,25 +38,29 @@ public class InventoryImpl implements IInventoryService {
 		System.out.println("Enter Book Name");
 		book.setTitle(sc.nextLine().trim());
 		
+		System.out.println("Enter Book Author :");
+		book.setAuthor(sc.nextLine().trim());
+		
 		System.out.println("Enter Book ISBN Number :");
 		book.setIsbn(sc.nextInt());
 		
 		System.out.println("Enter Book Price:");
 		book.setPrice(sc.nextInt());
 		
-		System.out.println("Enter Book Author :");
-		book.setAuthor(sc.nextLine().trim());
+		
 		
 		
 		try {
 			
-			String query = "INSERT INTO book VALUES(0, ?, ?, ?, ?,'1')";
+			String query = "INSERT INTO book VALUES(0, ?, ?,?, ?,'1')";
+			
 			preparedStatement = connection.prepareStatement(query); 
 			
 			preparedStatement.setString(1, book.getTitle());
 			preparedStatement.setInt(2, book.getIsbn());
-			preparedStatement.setInt(3, book.getPrice());
-			preparedStatement.setString(4, book.getAuthor());
+			preparedStatement.setString(3, book.getAuthor());
+			preparedStatement.setInt(4, book.getPrice());
+			
 			
 			int isSuccess = preparedStatement.executeUpdate();
 			
