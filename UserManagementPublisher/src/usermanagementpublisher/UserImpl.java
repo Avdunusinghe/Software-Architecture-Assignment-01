@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import bookstoredbcontext.DbContextImpl;
@@ -27,7 +29,7 @@ public class UserImpl implements IUserService {
 		
 	}
 
-
+	//@Save User
 	@Override
 	public void saveUser() {
 		
@@ -84,6 +86,98 @@ public class UserImpl implements IUserService {
 		
 		
 
+	}
+	
+	//@GET All User Details
+	@Override
+	public void getAllUsersDetails() {
+		
+		List<UserViewModel> vm = new ArrayList<>();
+		
+		try {
+			
+			String query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 1";
+			
+			statment = connection.createStatement();
+			resultSet = statment.executeQuery(query);
+			
+			System.out.println("\n==========================================User Details=================================================");
+			System.out.println
+			(
+					String.format
+					(
+							"%20s %20s %20s %20s %20s %20s\n", 
+							"UserId", "First Name", "Last Name", "Email", "Address", "Mobile Number"
+					)
+			);
+			
+			System.out.println("--------------------------------------------------------------------------------------------------------");
+			
+			
+			while(resultSet.next()) {
+				
+				System.out.printf
+				(
+						"%20d %20s %20s %20s %20s %20s\n", 
+						resultSet.getInt("id"),
+						resultSet.getString("firstName"),
+						resultSet.getString("lastName"),
+						resultSet.getString("email"),
+						resultSet.getString("address"),
+						resultSet.getString("mobileNumber")
+						
+						
+				);
+				
+				System.out.println("--------------------------------------------------------------------------------------------------------");
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			
+			System.out.println("getAllUsersDetailsException:" + ex.getMessage());
+			
+		}
+		
+		
+	}
+	
+	//@DELETE User 
+	
+	@Override
+	public void deleteUser() {
+		
+		Integer userId;
+		
+		System.out.print("\nPlease enter User id : ");
+		userId = (sc.nextInt());
+		
+		try {
+			
+			String query = "UPDATE user SET isActive = 0";
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("Delete user has been successfully..");
+				
+			}else {
+				
+				System.out.println("Cannot find user..");
+				
+			}
+			
+		}catch (Exception ex) {
+			
+			System.out.println("userDeleteException : " + ex.getMessage());
+			
+		}
+		
+		
 	}
 
 }
