@@ -15,7 +15,7 @@ public class UserImpl implements IUserService {
 	
 	private Connection connection = null; 
 	private IDbContext  dbContext;
-	private Statement statment;
+	private Statement statement;
 	private ResultSet  resultSet;
 	private static PreparedStatement preparedStatement = null;
 	
@@ -98,8 +98,8 @@ public class UserImpl implements IUserService {
 			
 			String query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 1 && roleId = 1";
 			
-			statment = connection.createStatement();
-			resultSet = statment.executeQuery(query);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
 			
 			System.out.println("\n==========================================User Details=================================================");
 			System.out.println
