@@ -13,7 +13,7 @@ public class InventoryImpl implements IInventoryService {
 	
 	private Connection connection = null; 
 	private IDbContext  dbContext;
-	private Statement statment;
+	private Statement statement;
 	private ResultSet  resultSet;
 	private static PreparedStatement preparedStatement = null;
 	
@@ -125,8 +125,8 @@ public class InventoryImpl implements IInventoryService {
 			
 			String query = "SELECT id, title, isbn, author, price FROM book WHERE isActive = 1";
 			
-			statment = connection.createStatement();
-			resultSet = statment.executeQuery(query);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
 			
 			System.out.println("\n==========================================Books Details=================================================");
 			System.out.println
@@ -181,8 +181,8 @@ public class InventoryImpl implements IInventoryService {
 		
 		try {
 			
-			statment = connection.createStatement();
-			resultSet = statment.executeQuery(query);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
 			
 			while (resultSet.next()) {  
 				
