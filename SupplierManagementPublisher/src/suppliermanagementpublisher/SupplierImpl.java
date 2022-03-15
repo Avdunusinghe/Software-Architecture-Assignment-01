@@ -76,11 +76,11 @@ public class SupplierImpl implements ISupplierService {
 				
 				if(isSuccess > 0) {
 					
-					System.out.println("Supplier Registration Has Been Successfully");
+					System.out.println("Supplier Registration Has Been Successfully ");
 					
 				}else {
 					
-					System.out.println("Error has been orccured please try again");
+					System.out.println("Error has been orccured please try again..");
 					
 				}
 				
