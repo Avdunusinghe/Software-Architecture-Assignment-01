@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import bookstoredbcontext.DbContextImpl;
 import bookstoredbcontext.IDbContext;
+import smtp.helper.EmailHelper;
 
 public class UserImpl implements IUserService {
 	
@@ -67,6 +68,10 @@ public class UserImpl implements IUserService {
 			preparedStatement.setString(6, user.getPassword());
 			
 			int isSuccess = preparedStatement.executeUpdate();
+			
+			EmailHelper emailHelper = new EmailHelper();
+			
+			emailHelper.sendRegisterCutomerEmail(user.getEmail(), "dev", "dev");
 			
 			if(isSuccess > 0) {
 				
