@@ -1,4 +1,4 @@
-package employeemanagementpublisher;
+package customermanagementpublisher;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -10,20 +10,18 @@ public class Activator implements BundleActivator {
 
 	public void start(BundleContext bundleContext) throws Exception {
 		
-		System.out.println("Employee Publisher Service Started");
+		System.out.println("User Publisher Service Started");
 		
-		IEmployeeService employeeService = new EmployeeImpl();
+		ICustomerService customerService = new CustomerImpl();
 		
-		serviceRegistration = bundleContext.registerService(IEmployeeService.class.getName(), employeeService, null);
-		
+		serviceRegistration = bundleContext.registerService(ICustomerService.class.getName(), customerService , null);
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
 		
-		System.out.println("Employee Publisher Service Stopped");
+		System.out.println("Customer Publisher Service Stopped");
 		
 		serviceRegistration.unregister();
-		
 	}
 
 }
