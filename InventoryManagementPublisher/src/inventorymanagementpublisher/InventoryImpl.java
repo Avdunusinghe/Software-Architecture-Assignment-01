@@ -169,4 +169,34 @@ public class InventoryImpl implements IInventoryService {
 		
 	}
 
+	@Override
+	public void getBookById() {
+		
+		Integer bookId;
+		
+		System.out.println("Enter Book Id : ");
+		bookId = (sc.nextInt());
+		
+		String query = "SELECT * FROM book WHERE id = '"+ bookId +"' && isActive = 1";
+		
+		try {
+			
+			statment = connection.createStatement();
+			resultSet = statment.executeQuery(query);
+			
+			while (resultSet.next()) {  
+				
+		    	  System.out.printf("%20d %20s %20d %20s %20d\n",resultSet.getInt("id"),resultSet.getString("title"),resultSet.getInt("isbn"),resultSet.getString("author"), resultSet.getInt("price"));		    	
+		      }		    	
+
+		} catch (Exception ex) {
+			
+			System.out.println("Error has been orccured please try again");
+			System.out.println(ex.getMessage());
+			
+		}
+		
+	}
+	
+
 }
