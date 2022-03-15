@@ -84,4 +84,89 @@ public class InventoryImpl implements IInventoryService {
 
 	}
 
+	@Override
+	public void deleteBook() {
+		
+		Integer bookId;
+		
+		System.out.print("\nPlease enter Book id : ");
+		bookId = (sc.nextInt());
+		
+		try {
+			
+			String query = "UPDATE book SET isActive = 0";
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("Book has been delete successfully..");
+				
+			}else {
+				
+				System.out.println("Cannot find book..");
+				
+			}
+			
+		}catch (Exception ex) {
+			
+			System.out.println("userDeleteException : " + ex.getMessage());
+			
+		}
+		
+	}
+
+	@Override
+	public void getAllBooksDetails() {
+		
+		try {
+			
+			String query = "SELECT id, title, isbn, author, price FROM book WHERE isActive = 1";
+			
+			statment = connection.createStatement();
+			resultSet = statment.executeQuery(query);
+			
+			System.out.println("\n==========================================Books Details=================================================");
+			System.out.println
+			(
+					String.format
+					(
+							"%20s %20s %20s %20s\n", 
+							"BookId", "Isbn Number", "Author", "price"
+					)
+			);
+			
+			System.out.println("--------------------------------------------------------------------------------------------------------");
+			
+			
+			while(resultSet.next()) {
+				
+				System.out.printf
+				(
+						"%20d %20s %20s %20s %20s\n", 
+						resultSet.getInt("id"),
+						resultSet.getString("title"),
+						resultSet.getString("lastName"),
+						resultSet.getString("isbn"),
+						resultSet.getString("author"),
+						resultSet.getString("price")
+						
+						
+				);
+				
+				System.out.println("--------------------------------------------------------------------------------------------------------");
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			
+			System.out.println("getAllBookDetailsException:" + ex.getMessage());
+			
+		}
+		
+	}
+
 }
