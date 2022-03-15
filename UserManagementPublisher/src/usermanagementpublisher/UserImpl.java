@@ -55,7 +55,7 @@ public class UserImpl implements IUserService {
 		
 		try {
 			
-			String query = "INSERT INTO user VALUES(0, ?, ?, ?, ?, ?, ?, '1')";
+			String query = "INSERT INTO user VALUES(0, ?, ?, ?, ?, ?, ?, '1', '1')";
 			
 			preparedStatement = connection.prepareStatement(query); 
 			
@@ -96,7 +96,7 @@ public class UserImpl implements IUserService {
 		
 		try {
 			
-			String query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 1";
+			String query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 1 && roleId = 1";
 			
 			statment = connection.createStatement();
 			resultSet = statment.executeQuery(query);
@@ -177,6 +177,59 @@ public class UserImpl implements IUserService {
 			
 		}
 		
+		
+	}
+
+	@Override
+	public void saveEmployee() {
+		
+		EmployeeViewModel vm = new EmployeeViewModel();
+		
+		System.out.println("Enter Your First Name :");
+		vm.setFirstName(sc.nextLine().trim());
+		
+		System.out.println("Enter Your Last Name :");
+		vm.setLastName(sc.nextLine().trim());
+		
+		System.out.println("Enter Your Email :");
+		vm.setEmail(sc.nextLine().trim());
+		
+		System.out.println("Enter Your Address :");
+		vm.setAddress(sc.nextLine().trim());
+		
+		System.out.println("Enter Your Mobile Number :");
+		vm.setMobileNumber(sc.nextLine().trim());
+		
+		
+		try {
+			
+			String query = "INSERT INTO user VALUES(0, ?, ?, ?, ?, ?, 'changeme', '1', '2')";
+			
+			preparedStatement = connection.prepareStatement(query); 
+			
+			preparedStatement.setString(1, vm.getFirstName());
+			preparedStatement.setString(2, vm.getLastName());
+			preparedStatement.setString(3, vm.getEmail());
+			preparedStatement.setString(4, vm.getAddress());
+			preparedStatement.setString(5, vm.getMobileNumber());
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("Employee Registration Has Been Successfully");
+				
+			}else {
+				
+				System.out.println("Error has been orccured please try again");
+				
+			}
+			
+			
+		}catch(Exception ex) {
+			
+			System.out.println("employeeSaveError : " + ex.getMessage());
+		}
 		
 	}
 
