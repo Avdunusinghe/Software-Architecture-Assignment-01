@@ -13,7 +13,7 @@ public class InventoryImpl implements IInventoryService {
 	
 	private Connection connection = null; 
 	private IDbContext  dbContext;
-	private Statement statment;
+	private Statement statement;
 	private ResultSet  resultSet;
 	private static PreparedStatement preparedStatement = null;
 	
@@ -83,5 +83,120 @@ public class InventoryImpl implements IInventoryService {
 		
 
 	}
+
+	@Override
+	public void deleteBook() {
+		
+		Integer bookId;
+		
+		System.out.print("\nPlease enter Book id : ");
+		bookId = (sc.nextInt());
+		
+		try {
+			
+			String query = "UPDATE book SET isActive = 0";
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("Book has been delete successfully..");
+				
+			}else {
+				
+				System.out.println("Cannot find book..");
+				
+			}
+			
+		}catch (Exception ex) {
+			
+			System.out.println("userDeleteException : " + ex.getMessage());
+			
+		}
+		
+	}
+
+	@Override
+	public void getAllBooksDetails() {
+		
+		try {
+			
+			String query = "SELECT id, title, isbn, author, price FROM book WHERE isActive = 1";
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			
+			System.out.println("\n==========================================Books Details=================================================");
+			System.out.println
+			(
+					String.format
+					(
+							"%20s %20s %20s %20s\n", 
+							"BookId", "Isbn Number", "Author", "price"
+					)
+			);
+			
+			System.out.println("--------------------------------------------------------------------------------------------------------");
+			
+			
+			while(resultSet.next()) {
+				
+				System.out.printf
+				(
+						"%20d %20s %20s %20s %20s\n", 
+						resultSet.getInt("id"),
+						resultSet.getString("title"),
+						resultSet.getString("lastName"),
+						resultSet.getString("isbn"),
+						resultSet.getString("author"),
+						resultSet.getString("price")
+						
+						
+				);
+				
+				System.out.println("--------------------------------------------------------------------------------------------------------");
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			
+			System.out.println("getAllBookDetailsException:" + ex.getMessage());
+			
+		}
+		
+	}
+
+	@Override
+	public void getBookById() {
+		
+		Integer bookId;
+		
+		System.out.println("Enter Book Id : ");
+		bookId = (sc.nextInt());
+		
+		String query = "SELECT * FROM book WHERE id = '"+ bookId +"' && isActive = 1";
+		
+		try {
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			
+			while (resultSet.next()) {  
+				
+		    	  System.out.printf("%20d %20s %20d %20s %20d\n",resultSet.getInt("id"),resultSet.getString("title"),resultSet.getInt("isbn"),resultSet.getString("author"), resultSet.getInt("price"));		    	
+		      }		    	
+
+		} catch (Exception ex) {
+			
+			System.out.println("Error has been orccured please try again");
+			System.out.println(ex.getMessage());
+			
+		}
+		
+	}
+	
 
 }
