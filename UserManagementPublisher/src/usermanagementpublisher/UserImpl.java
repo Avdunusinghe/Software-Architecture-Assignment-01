@@ -155,9 +155,11 @@ public class UserImpl implements IUserService {
 		
 		try {
 			
-			String query = "UPDATE user SET isActive = 0";
+			String query = "UPDATE user SET isActive = 0 WHERE id = ?";
 			
 			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setInt(1,userId);
 			
 			int isSuccess = preparedStatement.executeUpdate();
 			
