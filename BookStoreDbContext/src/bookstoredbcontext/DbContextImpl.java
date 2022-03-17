@@ -14,7 +14,7 @@ public class DbContextImpl implements IDbContext {
 	public DbContextImpl() {
 		
 		this.dbContextDriverName = "com.mysql.jdbc.Driver";
-		this.dbContextConnectionString = "jdbc:mysql://localhost:3306/bookStoreDb?characterEncoding=latin1&useConfigs=maxPerformance";
+		this.dbContextConnectionString = "jdbc:mysql://localhost:3306/bookStoreDb?autoReconnect=true&useSSL=false";	
 		this.dbContextUser = "root";
 		this.dbContextPassword = "1qaz2wsx@";
 	}
