@@ -38,7 +38,7 @@ public class Activator implements BundleActivator {
 		System.out.println("2 => Get All Supplier Details");
 		System.out.println("3 => Delete Supplier");
 		System.out.println("4 => Get Supplier by Id");
-		System.out.println("5 =>  WholeSale Order of Books");
+		System.out.println("5 => WholeSale Order");
 		System.out.println("6 => Get wholesale order list");
 		System.out.println("7 => Delete Wholesale Order");
 		System.out.println("8 => Get Wholesale Order by Id");
