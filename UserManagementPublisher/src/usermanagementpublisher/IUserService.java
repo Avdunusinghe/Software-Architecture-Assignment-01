@@ -6,6 +6,6 @@ public interface IUserService {
 	public void getAllUsersDetails();
 	public void deleteUser();
 	public void saveEmployee();
-	public void genarateUserDetailsReport();
+	public void genarateUserDetailsReportByRoleId();
 
 }
