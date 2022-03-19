@@ -20,8 +20,9 @@ public class Activator implements BundleActivator {
 		
 		serviceReference = bundleContext.getServiceReference(ICustomerService.class.getName());
 		
-		@SuppressWarnings("unchecked")
+		
 		ICustomerService customerService = (ICustomerService)bundleContext.getService(serviceReference);
+		renderCustomerDashboard(customerService);
 		
 	}
 
@@ -101,7 +102,8 @@ public class Activator implements BundleActivator {
 			break;
 			
 		default:
-			break;
+			System.out.println("User Option has been incorrect please try again ");
+			renderCustomerDashboard(customerService);
 		}
 		
 	}
