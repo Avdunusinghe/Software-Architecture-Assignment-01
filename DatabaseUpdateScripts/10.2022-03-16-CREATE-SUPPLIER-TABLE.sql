@@ -10,3 +10,4 @@ CREATE TABLE `bookstoredb`.`supplier` (
   `password` VARCHAR(45) NULL,
   `isActive` TINYINT NULL,
   PRIMARY KEY (`id`));
+supplier
