@@ -237,7 +237,7 @@ public class UserImpl implements IUserService {
 		
 	}
     
-	//@GENARATE ReportBy UserId
+	//@GENARATE ReportBy RoleId
 	@Override
 	public void genarateUserDetailsReportByRoleId() {
 		
