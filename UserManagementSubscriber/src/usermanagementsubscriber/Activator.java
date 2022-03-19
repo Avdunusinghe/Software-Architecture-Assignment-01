@@ -37,7 +37,7 @@ public class Activator implements BundleActivator {
 		String choice = "y";
 		
 		System.out.println("\n\n");
-		System.out.println("==============User Dashboard===============");
+		System.out.println("==============User Management Dashboard===============");
 		System.out.println("1 => Add Customer");
 		System.out.println("2 => Get All User Details");
 		System.out.println("3 => Delete User");
