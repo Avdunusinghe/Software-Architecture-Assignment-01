@@ -42,6 +42,7 @@ public class Activator implements BundleActivator {
 		System.out.println("2 => Get All User Details");
 		System.out.println("3 => Delete User");
 		System.out.println("4 => Employee Registration");
+		System.out.println("5 => Genarate User Detail Report");
 		System.out.println("Please Select Your Option");
 		
 		userDashboardChoice = Integer.parseInt(sc.nextLine().trim());
@@ -108,6 +109,13 @@ public class Activator implements BundleActivator {
 				}
 				
 				renderUserDashboard(userService);
+				break;
+				
+			case 5:
+				
+				userService.genarateUserDetailsReport();
+				renderUserDashboard(userService);
+				break;
 				
 			default:
 				
