@@ -1,5 +1,7 @@
 package inventorymanagementpublisher;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,10 +96,10 @@ public class InventoryImpl implements IInventoryService {
 		
 		try {
 			
-			String query = "UPDATE book SET isActive = 0";
+			String query = "UPDATE book SET isActive = 0 WHERE id = ?";
 			
 			preparedStatement = connection.prepareStatement(query);
-			
+			preparedStatement.setInt(1, bookId);
 			int isSuccess = preparedStatement.executeUpdate();
 			
 			if(isSuccess > 0) {
@@ -133,8 +135,8 @@ public class InventoryImpl implements IInventoryService {
 			(
 					String.format
 					(
-							"%20s %20s %20s %20s\n", 
-							"BookId", "Isbn Number", "Author", "price"
+							"%20s %20s %20s %20s %20s\n", 
+							"BookId", "Name", "Isbn Number", "Author", "price"
 					)
 			);
 			
@@ -148,7 +150,6 @@ public class InventoryImpl implements IInventoryService {
 						"%20d %20s %20s %20s %20s\n", 
 						resultSet.getInt("id"),
 						resultSet.getString("title"),
-						resultSet.getString("lastName"),
 						resultSet.getString("isbn"),
 						resultSet.getString("author"),
 						resultSet.getString("price")
@@ -184,15 +185,92 @@ public class InventoryImpl implements IInventoryService {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(query);
 			
+			System.out.println("=============Book Details=============");
+			
 			while (resultSet.next()) {  
 				
-		    	  System.out.printf("%20d %20s %20d %20s %20d\n",resultSet.getInt("id"),resultSet.getString("title"),resultSet.getInt("isbn"),resultSet.getString("author"), resultSet.getInt("price"));		    	
-		      }		    	
+		    	  System.out.println("BookId      :" + resultSet.getInt("id"));
+		    	  System.out.println("Book Name   :" + resultSet.getString("title"));
+		    	  System.out.println("ISBN Number :" + resultSet.getInt("isbn"));
+		    	  System.out.println("Price       :" + resultSet.getInt("price"));
+		    	    
+		      }	
+			
+			System.out.println("=====================================");
 
 		} catch (Exception ex) {
 			
 			System.out.println("Error has been orccured please try again");
 			System.out.println(ex.getMessage());
+			
+		}
+		
+	}
+
+	@Override
+	public void genarateBookDetailsReport() {
+		
+		try {
+							
+			String  query = "SELECT id, title, isbn, author, price FROM book WHERE isActive = 1";
+			  
+	
+			preparedStatement = connection.prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
+			
+			File directory = new File("C:\\OnlineBookStore\\books");
+			
+			directory.mkdirs();
+			
+			File file = new File(directory,"bookList.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			
+			
+
+			fileWriter.write(String.format("================================================= Book Details Report ============================================================\n"));
+			
+			
+			fileWriter.write(
+					
+					String.format
+					(
+							"%20s %20s %20s %20s %20s\n", 
+							"BookId", "Title", "ISBN", "Author", "Price"
+					)
+			);
+			
+			fileWriter.write(String.format("=========================================================================================================================================\n"));
+			
+			while(resultSet.next()) {
+				
+				fileWriter.write(
+						
+						String.format(
+								
+								"%20d %20s %20d %20s %20s\n", 
+								resultSet.getInt("id"),
+								resultSet.getString("title"),
+								resultSet.getInt("isbn"),
+								resultSet.getString("author"),
+								resultSet.getString("price")
+								
+						)
+				);
+				
+				fileWriter.write(String.format("-----------------------------------------------------------------------------------------------------------------------------------\n"));
+			}
+			
+			fileWriter.flush();
+			fileWriter.close();
+			
+			
+			System.out.println("Report genaration has been successfully");
+				
+			
+		}catch (Exception ex) {
+			
+			System.out.println("genarateInventoryDetailsReportException:" + ex.getMessage());
+			
 			
 		}
 		
