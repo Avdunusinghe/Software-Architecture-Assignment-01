@@ -340,8 +340,17 @@ public class UserImpl implements IUserService {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, roleId);
 			resultSet = preparedStatement.executeQuery();
+			if(roleId == 1) {
+				
+				System.out.println("\n==========================================Deleted User Details===============================================================================");
+				
+			}else {
+				
+				System.out.println("\n========================================== Deleted Employee Details==========================================================================");
+				
+			}
 			
-			System.out.println("\n==========================================User Details===============================================================================");
+			
 			System.out.println
 			(
 					String.format
@@ -374,7 +383,7 @@ public class UserImpl implements IUserService {
 			
 			System.out.println("=========================================================================================================================================");
 			
-			System.out.println("if you want to genarate Report All Deleted users (Y/N)");
+			System.out.println("if you want to genarate Report all deleted users (Y/N)");
 			Scanner choice = new Scanner(System.in);
 			String  genarateReportChoice = choice.nextLine().trim().toLowerCase();
 			
@@ -425,9 +434,9 @@ public class UserImpl implements IUserService {
 			
 			if(roleId == 1) {
 				
-				fileWriter.write(String.format("================================================= User Details Report ============================================================\n"));
+				fileWriter.write(String.format("================================================= Deleted User Details Report ============================================================\n"));
 			}else {
-				fileWriter.write(String.format("================================================= Employee Details Report ============================================================\n"));
+				fileWriter.write(String.format("================================================= Deleted Employee Details Report ============================================================\n"));
 			}
 			
 			fileWriter.write(
