@@ -43,6 +43,7 @@ public class Activator implements BundleActivator {
 		System.out.println("3 => Delete User");
 		System.out.println("4 => Employee Registration");
 		System.out.println("5 => Genarate User Detail Report");
+		System.out.println("6 => Get Deleted User Details");
 		System.out.println("Please Select Your Option");
 		
 		userDashboardChoice = Integer.parseInt(sc.nextLine().trim());
@@ -114,6 +115,11 @@ public class Activator implements BundleActivator {
 			case 5:
 				
 				userService.genarateUserDetailsReportByRoleId();
+				renderUserDashboard(userService);
+				break;
+			case 6:
+				
+				userService.getDeletedUserDetails();
 				renderUserDashboard(userService);
 				break;
 				
