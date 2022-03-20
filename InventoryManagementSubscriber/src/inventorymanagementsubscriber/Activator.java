@@ -37,11 +37,12 @@ public class Activator implements BundleActivator {
 		int userChoice;
 		
 		System.out.println("\n\n");
-		System.out.println("==============Inventory Dashboard===============");
+		System.out.println("==============Inventory Management Dashboard===============");
 		System.out.println("1 => Save Book");
 		System.out.println("2 => Get All Book Details");
 		System.out.println("3 => Delete Book");
 		System.out.println("4 => Get Book By Id");
+		System.out.println("5 => Genarate Book Details Report");
 		
 		System.out.println("Please Select Your Option");
 		
@@ -66,6 +67,11 @@ public class Activator implements BundleActivator {
 		
 		case 4:
 			inventoryService.getBookById();
+			renderInventoryDashBoard(inventoryService);
+			break;
+		
+		case 5:
+			inventoryService.genarateBookDetailsReport();
 			renderInventoryDashBoard(inventoryService);
 			break;
 			

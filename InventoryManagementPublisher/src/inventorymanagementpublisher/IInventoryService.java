@@ -6,4 +6,5 @@ public interface IInventoryService {
 	public void deleteBook();
 	public void getAllBooksDetails();
 	public void getBookById();
+	public void genarateBookDetailsReport();
 }
