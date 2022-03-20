@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import bookstoredbcontext.DbContextImpl;
 import bookstoredbcontext.IDbContext;
+import common.viewmodel.ResponseViewModel;
 
 public class UserImpl implements IUserService {
 	
@@ -316,6 +317,173 @@ public class UserImpl implements IUserService {
 			
 		}
 		
+	}
+
+	@Override
+	public void getDeletedUserDetails() {
+		
+		try {
+			
+			
+			
+			System.out.println("=================================================================");
+			System.out.println("Customer Role Id => 1  :");
+			System.out.println("Employee Role Id => 2  :");
+			System.out.println("Please Enter User Role Id");
+			
+			int roleId = sc.nextInt();
+						
+			String  query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 0 && roleId = ?";
+			
+			
+			
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, roleId);
+			resultSet = preparedStatement.executeQuery();
+			if(roleId == 1) {
+				
+				System.out.println("\n==========================================Deleted User Details===============================================================================");
+				
+			}else {
+				
+				System.out.println("\n========================================== Deleted Employee Details==========================================================================");
+				
+			}
+			
+			
+			System.out.println
+			(
+					String.format
+					(
+							"%20s %20s %20s %20s %20s %20s\n", 
+							"UserId", "First Name", "Last Name", "Email", "Address", "Mobile Number"
+					)
+			);
+			
+			System.out.println("======================================================================================================================================");
+			
+			
+			while(resultSet.next()) {
+				
+				System.out.printf
+				(
+						"%20d %20s %20s %24s %20s %20s\n", 
+						resultSet.getInt("id"),
+						resultSet.getString("firstName"),
+						resultSet.getString("lastName"),
+						resultSet.getString("email"),
+						resultSet.getString("address"),
+						resultSet.getString("mobileNumber")
+						
+						
+				);
+				
+				System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+			}
+			
+			System.out.println("=========================================================================================================================================");
+			
+			System.out.println("if you want to genarate Report all deleted users (Y/N)");
+			Scanner choice = new Scanner(System.in);
+			String  genarateReportChoice = choice.nextLine().trim().toLowerCase();
+			
+			if(genarateReportChoice.equals("y")) {
+				
+				ResponseViewModel response = new ResponseViewModel();
+				
+				response = genarateReportDeletedUsers(query,roleId);
+				
+				if(response.isSuccess) {
+					
+					System.out.println(response.getMessage());
+					
+				}
+				
+				
+			}else {
+				
+				System.out.println("======================================================================================================================================================");
+			}
+			
+		}catch(Exception ex) {
+			
+			System.out.println("getAllUsersDetailsException:" + ex.getMessage());
+			
+		}
+			
+		
+		
+	}
+	
+	private ResponseViewModel genarateReportDeletedUsers(String query,int roleId) {
+		
+		ResponseViewModel response = new ResponseViewModel();
+		
+		try {  
+			
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, roleId);
+			resultSet = preparedStatement.executeQuery();
+			
+			File directory = new File("C:\\OnlineBookStore\\User");
+			
+			directory.mkdirs();
+			
+			File file = new File(directory,"deletedUserList.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			
+			if(roleId == 1) {
+				
+				fileWriter.write(String.format("================================================= Deleted User Details Report ============================================================\n"));
+			}else {
+				fileWriter.write(String.format("================================================= Deleted Employee Details Report ============================================================\n"));
+			}
+			
+			fileWriter.write(
+					
+					String.format
+					(
+							"%20s %20s %20s %20s %20s %20s\n", 
+							"UserId", "First Name", "Last Name", "Email", "Address", "Mobile Number"
+					)
+			);
+			
+			fileWriter.write(String.format("=========================================================================================================================================\n"));
+			
+			while(resultSet.next()) {
+				
+				fileWriter.write(
+						
+						String.format(
+								
+								"%20d %20s %20s %24s %20s %20s\n", 
+								resultSet.getInt("id"),
+								resultSet.getString("firstName"),
+								resultSet.getString("lastName"),
+								resultSet.getString("email"),
+								resultSet.getString("address"),
+								resultSet.getString("mobileNumber")
+								
+						)
+				);
+				
+				fileWriter.write(String.format("-----------------------------------------------------------------------------------------------------------------------------------\n"));
+			}
+			
+			fileWriter.flush();
+			fileWriter.close();
+			
+			response.setMessage("Report genaration has been successfully");
+			response.setSuccess(true);
+			
+			
+		}catch(Exception ex) {
+			
+			response.setMessage("Error");
+			response.setSuccess(false);
+		}
+		
+		return response;
 	}
 
 }

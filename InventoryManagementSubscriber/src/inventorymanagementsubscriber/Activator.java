@@ -34,6 +34,7 @@ public class Activator implements BundleActivator {
 	public void renderInventoryDashBoard(IInventoryService inventoryService) {
 		
 		Scanner sc = new Scanner(System.in);
+		
 		int userChoice;
 		
 		System.out.println("\n\n");
