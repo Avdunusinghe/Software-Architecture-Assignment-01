@@ -189,19 +189,19 @@ public class UserImpl implements IUserService {
 		
 		EmployeeViewModel vm = new EmployeeViewModel();
 		
-		System.out.println("Enter Your First Name :");
+		System.out.println("Enter Employee First Name :");
 		vm.setFirstName(sc.nextLine().trim());
 		
-		System.out.println("Enter Your Last Name :");
+		System.out.println("Enter Employee Last Name :");
 		vm.setLastName(sc.nextLine().trim());
 		
-		System.out.println("Enter Your Email :");
+		System.out.println("Enter Employee Email :");
 		vm.setEmail(sc.nextLine().trim());
 		
-		System.out.println("Enter Your Address :");
+		System.out.println("Enter Employee Address :");
 		vm.setAddress(sc.nextLine().trim());
 		
-		System.out.println("Enter Your Mobile Number :");
+		System.out.println("Enter Employee Mobile Number :");
 		vm.setMobileNumber(sc.nextLine().trim());
 		
 		
@@ -280,7 +280,7 @@ public class UserImpl implements IUserService {
 					)
 			);
 			
-			fileWriter.write(String.format("==================================================================================================================================\n"));
+			fileWriter.write(String.format("=========================================================================================================================================\n"));
 			
 			while(resultSet.next()) {
 				
@@ -299,7 +299,7 @@ public class UserImpl implements IUserService {
 						)
 				);
 				
-				fileWriter.write(String.format("-----------------------------------------------------------------------------------------------------------------------------\n"));
+				fileWriter.write(String.format("-----------------------------------------------------------------------------------------------------------------------------------\n"));
 			}
 			
 			fileWriter.flush();
