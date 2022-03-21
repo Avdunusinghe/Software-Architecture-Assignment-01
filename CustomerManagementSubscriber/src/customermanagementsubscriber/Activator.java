@@ -44,8 +44,12 @@ public class Activator implements BundleActivator {
 		System.out.println("==============User Dashboard===============");
 		System.out.println("1 => Customer Registration");
 		System.out.println("2 => Request Book");
-		System.out.println("2 => Get All Book Details");
+		System.out.println("3 => Get All Book Details");
 		System.out.println("4 => Order Book");
+		System.out.println("5 => Delete Customer");
+		System.out.println("6 => Get Request Book Details");
+		System.out.println("7 => Generate Request Book Details");
+		System.out.println("8 => Generate Order Book Details");
 		System.out.println("Please Select Your Option");
 		
 		customerDashboardChoice = Integer.parseInt(sc.nextLine().trim());
@@ -84,7 +88,7 @@ public class Activator implements BundleActivator {
 			
 			break;
 		case 4:
-				customerService.requestBook();
+				customerService.orderBook();
 				
 				while(choice.equals("y")) {
 				
@@ -93,12 +97,49 @@ public class Activator implements BundleActivator {
 				
 				if(choice.equals("y")) {
 					
-					customerService.requestBook();
+					customerService.orderBook();
 				}
 				
 			}
 			
 			renderCustomerDashboard(customerService);
+			break;
+		case 5:
+			customerService.deleteCustomer();
+			
+			while(choice.equals("y")) {
+				
+				System.out.printf("\nDo you want to delete another customer(y/n) ");
+				choice = sc.nextLine().trim().toLowerCase();
+				
+				if(choice.equals("y")) {
+					
+					customerService.saveCustomer();
+				}
+			}
+			
+			renderCustomerDashboard(customerService);
+			break;
+		case 6:
+			customerService.getAllRequestBooks();
+			
+			renderCustomerDashboard(customerService);
+			
+			
+			break;
+		case 7:
+			customerService.getRequestBooksreport();
+			
+			renderCustomerDashboard(customerService);
+			
+			
+			break;
+		case 8:
+			customerService.getOrderBooksreport();
+			
+			renderCustomerDashboard(customerService);
+			
+			
 			break;
 			
 		default:
