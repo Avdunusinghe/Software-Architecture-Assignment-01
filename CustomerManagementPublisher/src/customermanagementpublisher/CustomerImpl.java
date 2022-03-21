@@ -1,5 +1,7 @@
 package customermanagementpublisher;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -129,8 +131,7 @@ public class CustomerImpl implements ICustomerService {
 		}
 		
 	}
-
-
+	
 	@Override
 	public void orderBook() {
 		
@@ -151,7 +152,7 @@ public class CustomerImpl implements ICustomerService {
 			preparedStatement = connection.prepareStatement(query);
 			
 			preparedStatement.setString(1, order.getBookName());
-			preparedStatement.setString(2, order.getBookName());
+			preparedStatement.setString(2, order.getAddress());
 			
 			int isSuccess = preparedStatement.executeUpdate();
 			
@@ -189,8 +190,8 @@ public class CustomerImpl implements ICustomerService {
 			(
 					String.format
 					(
-							"%20s %20s %20s %20s\n", 
-							"BookId", "Isbn Number", "Author", "price"
+							"%20s %20s %20s %20s %20s\n", 
+							"BookId", "Title", "Isbn Number", "Author", "price"
 					)
 			);
 			
@@ -204,7 +205,6 @@ public class CustomerImpl implements ICustomerService {
 						"%20d %20s %20s %20s %20s\n", 
 						resultSet.getInt("id"),
 						resultSet.getString("title"),
-						resultSet.getString("lastName"),
 						resultSet.getString("isbn"),
 						resultSet.getString("author"),
 						resultSet.getString("price")
@@ -227,7 +227,203 @@ public class CustomerImpl implements ICustomerService {
 		
 	}
 	
+	public void deleteCustomer() {
+		Integer userId;
+		
+		System.out.print("\nPlease enter Customer id : ");
+		userId = (sc.nextInt());
+		
+		try {
+			
+			String query = "UPDATE user SET isActive = 0 WHERE id = ?";
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setInt(1,userId);
+			
+			int isSuccess = preparedStatement.executeUpdate();
+			
+			if(isSuccess > 0) {
+				
+				System.out.println("Delete user has been successfully..");
+				
+			}else {
+				
+				System.out.println("Cannot find user..");
+				
+			}
+			
+		}catch (Exception ex) {
+			
+			System.out.println("userDeleteException : " + ex.getMessage());
+			
+		}
+	}
 	
-	
+	public void getAllRequestBooks() {
+		
+		try {
+			
+			String query = "SELECT id, bookName, author, messeage FROM requestbook";
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			
+			System.out.println("\n==========================================Request Books Details=================================================");
+			System.out.println
+			(
+					String.format
+					(
+							"%20s %20s %20s %20s\n", 
+							"Id", "Book Name", "Author", "Message"
+					)
+			);
+			
+			System.out.println("--------------------------------------------------------------------------------------------------------");
+			
+			
+			while(resultSet.next()) {
+				
+				System.out.printf
+				(
+						"%20d %20s %20s %20s\n", 
+						resultSet.getInt("id"),
+						resultSet.getString("bookName"),
+						resultSet.getString("author"),
+						resultSet.getString("messeage")
+						
+						
+				);
+				
+				System.out.println("--------------------------------------------------------------------------------------------------------");
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			
+			System.out.println("getAllBookDetailsException:" + ex.getMessage());
+			
+		}
+	}
 
+	public void getRequestBooksreport() {
+		try {
+			
+			String query = "SELECT id, bookName , author, messeage  FROM requestbook";
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			
+			File directory = new File("D:\\SA-OSGI\\Software-Architecture-Assignment-01");
+			
+			directory.mkdirs();
+			
+			File file = new File(directory,"RequestBooks.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			
+			fileWriter.write(String.format("=================================================== Request Book Details Report ============================================================================================\n\n"));
+			fileWriter.write(
+					
+					String.format
+					(
+							"%25s %25s %25s %25s\n", 
+							"Book Id", "Book Name", "Author", "Message"
+					)
+			);
+			
+			fileWriter.write(String.format("===================================================================================================================================================================================\n\n"));
+			
+			while(resultSet.next()) {
+				
+				fileWriter.write(
+						
+						String.format(
+								
+								"%20d %25s %25s %25s\n", 
+								resultSet.getInt("id"),
+								resultSet.getString("bookName"),
+								resultSet.getString("author"),
+								resultSet.getString("messeage")
+								
+						)
+				);
+				
+				fileWriter.write(String.format("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"));
+			}
+			
+			fileWriter.flush();
+			fileWriter.close();
+			
+			
+			System.out.println("Request Book Report genaration has been successfully");
+				
+			
+		}catch (Exception ex) {
+			
+			System.out.println("requestBookDetailsReportException:" + ex.getMessage());
+			
+			
+		}
+		
+	}
+
+	public void getOrderBooksreport() {
+		try {
+			
+			String query = "SELECT id, bookName , address FROM orders";
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			
+			File directory = new File("D:\\SA-OSGI\\Software-Architecture-Assignment-01");
+			
+			directory.mkdirs();
+			
+			File file = new File(directory,"OrderBooks.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			
+			fileWriter.write(String.format("=================================================== Order Book Details Report ============================================================================================\n\n"));
+			fileWriter.write(
+					
+					String.format
+					(
+							"%25s %25s %25s\n", 
+							"Book Id", "Book Name", "Address"
+					)
+			);
+			
+			fileWriter.write(String.format("===================================================================================================================================================================================\n\n"));
+			
+			while(resultSet.next()) {
+				
+				fileWriter.write(
+						
+						String.format(
+								
+								"%20d %25s %25s\n", 
+								resultSet.getInt("id"),
+								resultSet.getString("bookName"),
+								resultSet.getString("address")
+								
+						)
+				);
+				
+				fileWriter.write(String.format("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"));
+			}
+			
+			fileWriter.flush();
+			fileWriter.close();
+			
+			
+			System.out.println("Order Book Report genaration has been successfully");
+				
+			
+		}catch (Exception ex) {
+			
+			System.out.println("orderBookDetailsReportException:" + ex.getMessage());
+			
+			
+		}
+	}
 }
