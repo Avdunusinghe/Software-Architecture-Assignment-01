@@ -1,5 +1,7 @@
 package usermanagementpublisher;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,7 +89,7 @@ public class UserImpl implements IUserService {
 		
 
 	}
-	
+
 	//@GET All User Details
 	@Override
 	public void getAllUsersDetails() {
@@ -101,7 +103,7 @@ public class UserImpl implements IUserService {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(query);
 			
-			System.out.println("\n==========================================User Details=================================================");
+			System.out.println("\n==========================================User Details===============================================================================");
 			System.out.println
 			(
 					String.format
@@ -111,14 +113,14 @@ public class UserImpl implements IUserService {
 					)
 			);
 			
-			System.out.println("--------------------------------------------------------------------------------------------------------");
+			System.out.println("======================================================================================================================================");
 			
 			
 			while(resultSet.next()) {
 				
 				System.out.printf
 				(
-						"%20d %20s %20s %20s %20s %20s\n", 
+						"%20d %20s %20s %24s %20s %20s\n", 
 						resultSet.getInt("id"),
 						resultSet.getString("firstName"),
 						resultSet.getString("lastName"),
@@ -129,7 +131,7 @@ public class UserImpl implements IUserService {
 						
 				);
 				
-				System.out.println("--------------------------------------------------------------------------------------------------------");
+				System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
 			}
 			
 			
@@ -142,9 +144,8 @@ public class UserImpl implements IUserService {
 		
 		
 	}
-	
+
 	//@DELETE User 
-	
 	@Override
 	public void deleteUser() {
 		
@@ -155,9 +156,11 @@ public class UserImpl implements IUserService {
 		
 		try {
 			
-			String query = "UPDATE user SET isActive = 0";
+			String query = "UPDATE user SET isActive = 0 WHERE id = ?";
 			
 			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setInt(1,userId);
 			
 			int isSuccess = preparedStatement.executeUpdate();
 			
@@ -179,7 +182,8 @@ public class UserImpl implements IUserService {
 		
 		
 	}
-
+   
+	//@SAVE Employee
 	@Override
 	public void saveEmployee() {
 		
@@ -229,6 +233,87 @@ public class UserImpl implements IUserService {
 		}catch(Exception ex) {
 			
 			System.out.println("employeeSaveError : " + ex.getMessage());
+		}
+		
+	}
+    
+	//@GENARATE ReportBy RoleId
+	@Override
+	public void genarateUserDetailsReportByRoleId() {
+		
+		try {
+			
+			System.out.println("=================================================================");
+			System.out.println("Customer Role Id => 1  :");
+			System.out.println("Employee Role Id => 2  :");
+			System.out.println("Please Enter User Role Id");
+			
+			int roleId = sc.nextInt();
+						
+			String  query = "SELECT id, firstName, lastName, email, address, mobileNumber FROM user WHERE isActive = 1 && roleId = ?";
+			  
+	
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, roleId);
+			resultSet = preparedStatement.executeQuery();
+			
+			File directory = new File("C:\\OnlineBookStore\\User");
+			
+			directory.mkdirs();
+			
+			File file = new File(directory,"userList.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			
+			if(roleId == 1) {
+				
+				fileWriter.write(String.format("================================================= User Details Report ============================================================\n"));
+			}else {
+				fileWriter.write(String.format("================================================= Employee Details Report ============================================================\n"));
+			}
+			
+			fileWriter.write(
+					
+					String.format
+					(
+							"%20s %20s %20s %20s %20s %20s\n", 
+							"UserId", "First Name", "Last Name", "Email", "Address", "Mobile Number"
+					)
+			);
+			
+			fileWriter.write(String.format("==================================================================================================================================\n"));
+			
+			while(resultSet.next()) {
+				
+				fileWriter.write(
+						
+						String.format(
+								
+								"%20d %20s %20s %24s %20s %20s\n", 
+								resultSet.getInt("id"),
+								resultSet.getString("firstName"),
+								resultSet.getString("lastName"),
+								resultSet.getString("email"),
+								resultSet.getString("address"),
+								resultSet.getString("mobileNumber")
+								
+						)
+				);
+				
+				fileWriter.write(String.format("-----------------------------------------------------------------------------------------------------------------------------\n"));
+			}
+			
+			fileWriter.flush();
+			fileWriter.close();
+			
+			
+			System.out.println("Report genaration has been successfully");
+				
+			
+		}catch (Exception ex) {
+			
+			System.out.println("genarateUserDetailsReportException:" + ex.getMessage());
+			
+			
 		}
 		
 	}
